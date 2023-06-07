@@ -1,3 +1,5 @@
+using System;
+using Manager;
 using UnityEngine;
 
 namespace Inputs
@@ -34,6 +36,19 @@ namespace Inputs
             {
                 OnShootInput?.Invoke();
             }
+        }
+        private void OnGameEnd()
+        {
+            enabled = false;
+        }
+        private void OnEnable()
+        {
+            GameManager.OnGameEnd += OnGameEnd;
+        }
+        
+        private void OnDisable()
+        {
+            GameManager.OnGameEnd -= OnGameEnd;   
         }
     }
 }

@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc885b8956223674488e2d0b8b578a87, type: 3}
   m_Name: BaseBall
   m_EditorClassIdentifier: 
-  name: BaseBall
-  ball: {fileID: 8640322554727687851, guid: a77d00116f449644aa7cf7991047b0d2, type: 3}
+  damage: 10
   force: 100
   mass: 5

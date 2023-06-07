@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Manager;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
@@ -36,4 +37,19 @@ public class CameraFollow : MonoBehaviour
         _offset = offset;
     }
     
+    private void OnGameEnd()
+    {
+        _istargetNull = true;
+        _target = null;
+    }
+
+    private void OnEnable()
+    {
+        GameManager.OnGameEnd += OnGameEnd;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnGameEnd -= OnGameEnd;
+    }
 }

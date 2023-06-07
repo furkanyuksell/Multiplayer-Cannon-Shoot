@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc885b8956223674488e2d0b8b578a87, type: 3}
   m_Name: FireBall
   m_EditorClassIdentifier: 
+  damage: 20
   force: 300
   mass: 10

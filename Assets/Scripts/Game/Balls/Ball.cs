@@ -1,3 +1,4 @@
+using System;
 using Interfaces;
 using Unity.Netcode;
 using UnityEngine;
@@ -46,6 +47,17 @@ namespace Game.Balls
         public void ReturnToPool()
         {
             _ballPool.Release(this);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.TryGetComponent(out MortarInGame mortarInGame))
+            {
+                if (mortarInGame.TryGetComponent(out IDamageable damageable))
+                {
+                    damageable.TakeDamage(ballInfo.damage);
+                }
+            }
         }
     }
 }
