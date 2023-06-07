@@ -30,6 +30,12 @@ namespace Game.Mortar
     
         public void TakeDamage(int damage)
         {
+             TakeDamageClientRpc(damage);
+        }
+        
+        [ClientRpc]
+        private void TakeDamageClientRpc(int damage)
+        {
             Health -= damage;
             healthSlider.value = Health;
             if (Health <= 0)
@@ -37,7 +43,7 @@ namespace Game.Mortar
                 GameManager.OnGameEnd?.Invoke();
                 GameManager.OnGameEndState?.Invoke(OwnerClientId == NetworkManager.Singleton.LocalClientId);
                 enabled = false;
-            }   
+            }  
         }
     }
 }
