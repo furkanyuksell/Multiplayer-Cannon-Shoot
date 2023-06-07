@@ -1,10 +1,11 @@
 using Game.Balls;
 using Inputs;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Game.Mortar
 {
-    public class Trajectory : MonoBehaviour
+    public class Trajectory : NetworkBehaviour
     {
         [SerializeField]
         private LineRenderer lineRenderer;
@@ -34,6 +35,9 @@ namespace Game.Mortar
     
         private void DrawTrajectory(bool show)
         {
+            if (!IsOwner)
+                return;
+            
             if (show)
             {
                 lineRenderer.enabled = true;

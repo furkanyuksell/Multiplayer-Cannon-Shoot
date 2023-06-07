@@ -3,11 +3,12 @@ using Constants;
 using Game.Balls;
 using Inputs;
 using Manager;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Game.Mortar
 {
-    public class MortarController : MonoBehaviour
+    public class MortarController : NetworkBehaviour
     {
         private const float MuzzleRotHorzMaxLimit = 60f;
         private const float MuzzleRotHorzMinLimit = 360f - MuzzleRotHorzMaxLimit;
@@ -16,6 +17,8 @@ namespace Game.Mortar
         [SerializeField] Transform rotationPoint;
         private void ProcessInput(Vector2 rotation)
         {
+            if (!IsOwner)
+                return;
             Vector3 muzzleEuler = rotationPoint.localEulerAngles;
             float y = muzzleEuler.y + rotation.y;
             if (y is > MuzzleRotHorzMaxLimit and < 180f)
@@ -40,6 +43,34 @@ namespace Game.Mortar
             _ballsDatabase = ServiceProvider.GetDataManager.ballsDatabase;
             _ballsDatabase.InitDictionary();
             SetBall?.Invoke(_ballsDatabase.GetBall(Constant.BaseBall));
+            
+            
+            if (!IsOwner)
+                return;
+            PositionSet();
+        
+        }
+
+        private void PositionSet()
+        {
+            CameraFollow.Instance.SetTarget(transform);
+            
+            PositionDatas positionData = ServiceProvider.GetDataManager.positionDatas[OwnerClientId];
+            CameraFollow.Instance.SetCamera(positionData.cameraRotation , positionData.cameraOffset);
+            transform.position = positionData.playerStartPosition;
+            transform.rotation = Quaternion.Euler(positionData.playerStartRotation);
+        }
+
+        
+        private void Update()
+        {
+            if (!IsOwner) return;
+
+            Vector3 moveDir = new Vector3(0, 0, 0);
+            if (Input.GetKey(KeyCode.LeftArrow)) moveDir += Vector3.left;
+            if (Input.GetKey(KeyCode.RightArrow)) moveDir += Vector3.right;
+        
+            transform.position += moveDir * (Time.deltaTime * 10f);
         }
 
         private void OnEnable()
