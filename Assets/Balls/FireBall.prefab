@@ -159,4 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c63f0cddae7b9a84a8ff2d6a8f32a644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   ballInfo: {fileID: 11400000, guid: e82ec53e5d947ac4bbe155f514809c44, type: 2}

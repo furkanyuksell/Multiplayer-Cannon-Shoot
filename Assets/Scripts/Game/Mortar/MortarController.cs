@@ -4,7 +4,7 @@ using Constants;
 using Game.Balls;
 using Inputs;
 using Manager;
-using Unity.Netcode;
+using Mirror;
 using UnityEngine;
 
 namespace Game.Mortar
@@ -18,8 +18,9 @@ namespace Game.Mortar
         [SerializeField] Transform rotationPoint;
         private void ProcessInput(Vector2 rotation)
         {
-            if (!IsOwner)
-                return;
+            
+            //if (!isLocalPlayer) return;
+            
             Vector3 muzzleEuler = rotationPoint.localEulerAngles;
             float y = muzzleEuler.y + rotation.y;
             if (y is > MuzzleRotHorzMaxLimit and < 180f)
@@ -46,9 +47,9 @@ namespace Game.Mortar
             SetBall?.Invoke(_ballsDatabase.GetBall(Constant.BaseBall));
             
             
-            if (!IsOwner)
+           /* if (!IsOwner)
                 return;
-            PositionSet();
+            PositionSet();*/
         
         }
 
@@ -56,16 +57,16 @@ namespace Game.Mortar
         {
             CameraFollow.Instance.SetTarget(transform);
             
-            PositionDatas positionData = ServiceProvider.GetDataManager.positionDatas[OwnerClientId];
-            CameraFollow.Instance.SetCamera(positionData.cameraRotation , positionData.cameraOffset);
+           // PositionDatas positionData = ServiceProvider.GetDataManager.positionDatas[OwnerClientId];
+           /* CameraFollow.Instance.SetCamera(positionData.cameraRotation , positionData.cameraOffset);
             transform.position = positionData.playerStartPosition;
-            transform.rotation = Quaternion.Euler(positionData.playerStartRotation);
+            transform.rotation = Quaternion.Euler(positionData.playerStartRotation);*/
         }
 
         
         private void Update()
         {
-            if (!IsOwner) return;
+            //if (!isLocalPlayer) return;
 
             Vector3 moveDir = new Vector3(0, 0, 0);
             if (Input.GetKey(KeyCode.LeftArrow)) moveDir += Vector3.left;

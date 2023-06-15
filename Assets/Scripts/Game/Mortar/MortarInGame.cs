@@ -1,12 +1,11 @@
 using Interfaces;
 using Manager;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.Mortar
 {
-    public class MortarInGame : NetworkBehaviour, IDamageable
+    public class MortarInGame : MonoBehaviour, IDamageable
     {
         [SerializeField] private Slider[] healthSliders;
         [SerializeField] Slider healthSlider;
@@ -16,8 +15,6 @@ namespace Game.Mortar
         private int Health { get; set; }
         private void Start()
         {
-            Debug.Log("MortarInGame Start " + OwnerClientId);
-            healthSlider = healthSliders[OwnerClientId];
             healthSlider.gameObject.SetActive(true);
             SetHealth();
         }
@@ -33,7 +30,7 @@ namespace Game.Mortar
              TakeDamageClientRpc(damage);
         }
         
-        [ClientRpc]
+        //[ClientRpc]
         private void TakeDamageClientRpc(int damage)
         {
             Health -= damage;
@@ -41,7 +38,7 @@ namespace Game.Mortar
             if (Health <= 0)
             {
                 GameManager.OnGameEnd?.Invoke();
-                GameManager.OnGameEndState?.Invoke(OwnerClientId == NetworkManager.Singleton.LocalClientId);
+                //GameManager.OnGameEndState?.Invoke(OwnerClientId == NetworkManager.Singleton.LocalClientId);
                 enabled = false;
             }  
         }

@@ -1,8 +1,8 @@
 using Game.Balls;
 using Inputs;
 using Manager;
+using Mirror;
 using ObjectPool;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Game.Mortar
@@ -12,42 +12,46 @@ namespace Game.Mortar
         BallPool _ballPool;
         private Ball _activeBall;
 
+        
+        [Client]
         private void OnShoot()
         {
-            if (!IsOwner)
+            if (!isLocalPlayer)
                 return;
-            
-            if (IsHost)
+            CmdShoot();   
+            /*
+            if (isClientOnly)
             {
-                ShootOnClientRpc(transform.position, transform.forward, Quaternion.identity);   
+                
             }
             else
             {
                 ShootOnServerRpc(transform.position, transform.forward, Quaternion.identity);
                 Spawner(transform.position, transform.forward, Quaternion.identity);
             } 
+            var shooterTransform = transform;
+            Spawner(shooterTransform.position, shooterTransform.forward, Quaternion.identity);*/
         }
         
-        [ClientRpc]
-        private void ShootOnClientRpc(Vector3 position, Vector3 forward, Quaternion rotation)
+        [Command]
+        private void CmdShoot()
         {
-            Spawner(position, forward, rotation);
+            RpcSpawner();
         }
-        
-        [ServerRpc]
+        /*
+        [Client]
         private void ShootOnServerRpc(Vector3 position, Vector3 forward, Quaternion rotation)
         {
             Spawner(position, forward, rotation);
         }
-
-        private void Spawner(Vector3 position, Vector3 forward, Quaternion rotation)
+*/
+        [ClientRpc]
+        private void RpcSpawner()
         {
             var ball = _ballPool.GetBall(_activeBall);
             ball.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
             ball.Fire(transform.forward);
         }
-        
-        
 
         public void SetNewBall(Ball ball)
         {

@@ -1,6 +1,6 @@
 using Game.Balls;
 using Inputs;
-using Unity.Netcode;
+using Mirror;
 using UnityEngine;
 
 namespace Game.Mortar
@@ -34,9 +34,8 @@ namespace Game.Mortar
         }
     
         private void DrawTrajectory(bool show)
-        {
-            if (!IsOwner)
-                return;
+        { 
+            if (!isLocalPlayer) return;
             
             if (show)
             {

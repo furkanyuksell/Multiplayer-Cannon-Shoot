@@ -1,5 +1,3 @@
-using System;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,17 +13,17 @@ namespace NetworkManagerCore
         {
             serverBtn.onClick.AddListener(() =>
             {
-                NetworkManager.Singleton.StartServer();
+                //NetworkManager.Singleton.StartServer();
                 gameObject.SetActive(false);
             });
             hostBtn.onClick.AddListener(() =>
             {
-                NetworkManager.Singleton.StartHost();
+                //NetworkManager.Singleton.StartHost();
                 gameObject.SetActive(false);
             });
             clientBtn.onClick.AddListener(() =>
             {
-                NetworkManager.Singleton.StartClient();
+                //NetworkManager.Singleton.StartClient();
                 gameObject.SetActive(false);
             });
         }

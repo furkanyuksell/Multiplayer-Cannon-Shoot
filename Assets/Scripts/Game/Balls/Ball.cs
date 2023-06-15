@@ -1,13 +1,11 @@
-using System;
 using Game.Mortar;
 using Interfaces;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Pool;
 
 namespace Game.Balls
 {
-    public abstract class Ball : NetworkBehaviour, IPoolable<Ball>
+    public abstract class Ball : MonoBehaviour, IPoolable<Ball>
     {
     
         public BallInfo ballInfo;

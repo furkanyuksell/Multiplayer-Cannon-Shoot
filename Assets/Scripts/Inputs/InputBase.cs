@@ -1,5 +1,5 @@
 using System;
-using Unity.Netcode;
+using Mirror;
 using UnityEngine;
 
 namespace Inputs
